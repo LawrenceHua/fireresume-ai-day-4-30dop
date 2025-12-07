@@ -1,0 +1,183 @@
+% FireResume AI - ATS-Safe LaTeX Template
+% Single column, standard fonts, no images/icons
+% Optimized for ATS parsing while maintaining readability
+
+\documentclass[11pt,letterpaper]{article}
+
+% ============================================
+% Packages
+% ============================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{times}  % Times New Roman - ATS friendly
+\usepackage[margin=0.5in]{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{titlesec}
+
+% ============================================
+% Hyperlink Setup
+% ============================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=black,
+    urlcolor=black,
+    pdftitle={Resume},
+    pdfauthor={{{FULL_NAME}}},
+}
+
+% ============================================
+% Formatting
+% ============================================
+
+% Remove page numbers
+\pagenumbering{gobble}
+
+% Section formatting
+\titleformat{\section}
+    {\normalfont\large\bfseries\uppercase}
+    {}
+    {0em}
+    {}
+    [\titlerule]
+
+\titlespacing*{\section}{0pt}{12pt}{6pt}
+
+% Reduce list spacing
+\setlist[itemize]{
+    noitemsep,
+    topsep=0pt,
+    parsep=0pt,
+    partopsep=0pt,
+    leftmargin=1.5em
+}
+
+% Custom commands
+\newcommand{\resumeItem}[1]{
+    \item \small{#1}
+}
+
+\newcommand{\experienceHeading}[4]{
+    \vspace{4pt}
+    \textbf{#1} \hfill #2 \\
+    \textit{#3} \hfill \textit{#4}
+    \vspace{2pt}
+}
+
+\newcommand{\projectHeading}[2]{
+    \vspace{4pt}
+    \textbf{#1} | \small{#2}
+    \vspace{2pt}
+}
+
+\newcommand{\educationHeading}[4]{
+    \vspace{4pt}
+    \textbf{#1} \hfill #2 \\
+    \textit{#3} \hfill \textit{#4}
+}
+
+% ============================================
+% Document Start
+% ============================================
+\begin{document}
+
+% ============================================
+% Header
+% ============================================
+\begin{center}
+    {\LARGE \textbf{{{FULL_NAME}}}} \\
+    \vspace{4pt}
+    {{LOCATION}} {{#if PHONE}}| {{PHONE}} {{/if}}| {{EMAIL}} \\
+    {{#if LINKEDIN}}\href{{{LINKEDIN}}}{{{LINKEDIN}}} {{/if}}
+    {{#if PORTFOLIO}}| \href{{{PORTFOLIO}}}{{{PORTFOLIO}}} {{/if}}
+    {{#if GITHUB}}| \href{{{GITHUB}}}{{{GITHUB}}} {{/if}}
+\end{center}
+
+% ============================================
+% Summary
+% ============================================
+{{#if SUMMARY}}
+\section{Summary}
+{{SUMMARY}}
+{{/if}}
+
+% ============================================
+% Skills
+% ============================================
+{{#if SKILLS}}
+\section{Skills}
+{{#each SKILLS}}
+\textbf{{{this.category}}:} {{this.skillsJoined}} \\
+{{/each}}
+{{/if}}
+
+% ============================================
+% Experience
+% ============================================
+{{#if EXPERIENCES}}
+\section{Experience}
+{{#each EXPERIENCES}}
+\experienceHeading{{{this.title}}}{{{this.company}}}{{{this.location}}}{{{this.startDate}} -- {{this.endDate}}}
+\begin{itemize}
+{{#each this.bullets}}
+    \resumeItem{{{this}}}
+{{/each}}
+\end{itemize}
+{{/each}}
+{{/if}}
+
+% ============================================
+% Projects
+% ============================================
+{{#if PROJECTS}}
+\section{Projects}
+{{#each PROJECTS}}
+\projectHeading{{{this.title}}{{#if this.link}} (\href{{{this.link}}}{Link}){{/if}}}{{{this.techStackJoined}}}
+\begin{itemize}
+{{#each this.bullets}}
+    \resumeItem{{{this}}}
+{{/each}}
+\end{itemize}
+{{/each}}
+{{/if}}
+
+% ============================================
+% Education
+% ============================================
+{{#if EDUCATION}}
+\section{Education}
+{{#each EDUCATION}}
+\educationHeading{{{this.degree}}}{{{this.institution}}}{{{this.location}}}{{{this.graduationDate}}}
+{{#if this.gpa}}\\GPA: {{this.gpa}}{{/if}}
+{{#if this.relevantCoursework}}\\Relevant Coursework: {{this.courseworkJoined}}{{/if}}
+\vspace{4pt}
+{{/each}}
+{{/if}}
+
+% ============================================
+% Certifications
+% ============================================
+{{#if CERTIFICATIONS}}
+\section{Certifications}
+\begin{itemize}
+{{#each CERTIFICATIONS}}
+    \item \textbf{{{this.name}}} -- {{this.issuer}} {{#if this.date}}({{this.date}}){{/if}}
+{{/each}}
+\end{itemize}
+{{/if}}
+
+% ============================================
+% Awards
+% ============================================
+{{#if AWARDS}}
+\section{Awards \& Honors}
+\begin{itemize}
+{{#each AWARDS}}
+    \item {{this}}
+{{/each}}
+\end{itemize}
+{{/if}}
+
+\end{document}
+
